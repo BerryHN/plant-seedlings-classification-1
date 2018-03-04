@@ -4,7 +4,7 @@ import argparse
 import numpy as np
 import pandas as pd
 from keras.models import Model
-from keras.layers import Dense, Flatten
+from keras.layers import Dense, Flatten, Dropout
 from keras.preprocessing import image
 from keras.utils import to_categorical
 from keras.applications.vgg19 import VGG19, preprocess_input
@@ -69,7 +69,9 @@ for layer in model.layers:
 x = model.output
 x = Flatten(name="flatten")(x)
 x = Dense(4096, activation="relu", name="fc1")(x)
+x = Dropout(0.5)(x)
 x = Dense(4096, activation="relu", name="fc2")(x)
+x = Dropout(0.5)(x)
 x = Dense(n_classes, activation="softmax", name="predictions")(x)
 
 # Redefine the model
