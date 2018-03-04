@@ -4,7 +4,7 @@ import argparse
 import numpy as np
 import pandas as pd
 from keras.models import Model
-from keras.layers import Dense, Flatten, Dropout
+from keras.layers import Dense, Flatten
 from keras.preprocessing import image
 from keras.utils import to_categorical
 from keras.applications.vgg19 import VGG19, preprocess_input
@@ -13,7 +13,7 @@ from util import f1_micro
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--output_dir", default="../output_data", type=str, help="path to output directory")
-parser.add_argument("--dataset", default="../datasets/", type=str, help="path to the csv file generated using generate_dataframe.py")
+parser.add_argument("--dataset", default="../datasets/train.csv", type=str, help="path to the csv file generated using generate_dataframe.py")
 parser.add_argument("--n_splits", default=5, type=int, help="Number of stratified k fold splits")
 parser.add_argument("--batch_size", default=128, type=int, help="Size per training batch")
 parser.add_argument("--epochs", default=10, type=int, help="number of epochs for training")
@@ -69,9 +69,7 @@ for layer in model.layers:
 x = model.output
 x = Flatten(name="flatten")(x)
 x = Dense(4096, activation="relu", name="fc1")(x)
-x = Dropout(0.5)(x)
 x = Dense(4096, activation="relu", name="fc2")(x)
-x = Dropout(0.5)(x)
 x = Dense(n_classes, activation="softmax", name="predictions")(x)
 
 # Redefine the model
