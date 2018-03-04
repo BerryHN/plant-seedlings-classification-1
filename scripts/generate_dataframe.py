@@ -1,8 +1,15 @@
+import argparse
 import os
 import glob
 import pandas as pd
 
-dirpath = "/home/hardian_lawi/plant-seedlings-classification/datasets/train"
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--dirpath', required=True)
+args = parser.parse_args()
+
+# dirpath = "/home/hardian_lawi/plant-seedlings-classification/datasets/train"
+dirpath = args.dirpath
 
 df = {}
 train_data = True
